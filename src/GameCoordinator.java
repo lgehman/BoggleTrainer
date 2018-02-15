@@ -4,6 +4,6 @@ public class GameCoordinator {
 
     public GameCoordinator(String dictFileName){
         dictionary = new Dictionary(dictFileName);
-
+        gameDisplay = new GameDisplay();
     }
 }

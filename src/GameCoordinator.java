@@ -53,7 +53,9 @@ public class GameCoordinator extends Application{
         buttonsAndLabels.getChildren().addAll(checkButton,inDictionary);
 
         rootLayout.setLeft(buttonsAndLabels);
+        rootLayout.setCenter(new Tray());
         rootLayout.setRight(textField);
+
         root.getChildren().add(rootLayout);
         return root;
     }

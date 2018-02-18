@@ -5,7 +5,7 @@ public class Dictionary {
     private File dictionarySource;
 
     public Dictionary(){
-        dictionarySource = new File("animals.txt");
+        dictionarySource = new File("dictionary.txt");
     }
 
     public boolean contains(String word){

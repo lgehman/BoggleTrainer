@@ -1,23 +1,25 @@
-import java.io.File;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.Scanner;
 
 public class Dictionary {
-    private File dictionarySource;
+    private URL urlToDictionary;
 
     public Dictionary(){
-        dictionarySource = new File("dictionary.txt");
+        urlToDictionary = this.getClass().getResource("/" + "dictionary.txt");
     }
 
     public boolean contains(String word){
         try{
-            Scanner scanner = new Scanner(dictionarySource);
+            InputStream stream = urlToDictionary.openStream();
+            Scanner scanner = new Scanner(stream);
             while(scanner.hasNextLine()){
                 if(word.equals(scanner.nextLine())){
                     return true;
                 }
             }
         } catch (Exception e) {
-            System.out.println("Source file not found");
+            System.out.println(e);
         }
         return false;
     }

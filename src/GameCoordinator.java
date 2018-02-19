@@ -28,7 +28,7 @@ public class GameCoordinator extends Application{
 
     }
 
-    public Parent createContent(){
+    private Parent createContent(){
         Pane root = new Pane();
         BorderPane rootLayout = new BorderPane();
 
@@ -38,15 +38,12 @@ public class GameCoordinator extends Application{
         VBox buttonsAndLabels = new VBox();
 
         Label inDictionary = new Label("In dictionary?:");
-        Button checkButton = new Button("Check");
-        checkButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override
-            public void handle(ActionEvent event) {
-                if(dictionary.contains(textField.getText())){
-                    inDictionary.setText("In dictionary?: Yes");
-                } else {
-                    inDictionary.setText("In dictionary?: No");
-                }
+        Button checkButton = new Button("Submit Words");
+        checkButton.setOnAction(event -> {
+            if(dictionary.contains(textField.getText())){
+                inDictionary.setText("In dictionary?: Yes");
+            } else {
+                inDictionary.setText("In dictionary?: No");
             }
         });
 

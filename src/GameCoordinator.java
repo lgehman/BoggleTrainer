@@ -14,9 +14,11 @@ import javafx.stage.Stage;
 
 public class GameCoordinator extends Application{
     private Dictionary dictionary;
+    private Tray tray;
 
     public GameCoordinator() {
         dictionary = new Dictionary();
+        tray = new Tray();
     }
 
     @Override
@@ -37,20 +39,20 @@ public class GameCoordinator extends Application{
 
         VBox buttonsAndLabels = new VBox();
 
-        Label inDictionary = new Label("In dictionary?:");
-        Button checkButton = new Button("Submit Words");
+        Label validWord = new Label("Valid Word?:");
+        Button checkButton = new Button("Check");
         checkButton.setOnAction(event -> {
-            if(dictionary.contains(textField.getText())){
-                inDictionary.setText("In dictionary?: Yes");
+            if(dictionary.contains(textField.getText()) && tray.contains(textField.getText())){
+                validWord.setText("Valid Word?: Yes");
             } else {
-                inDictionary.setText("In dictionary?: No");
+                validWord.setText("Valid Word?: No");
             }
         });
 
-        buttonsAndLabels.getChildren().addAll(checkButton,inDictionary);
+        buttonsAndLabels.getChildren().addAll(checkButton,validWord);
 
         rootLayout.setLeft(buttonsAndLabels);
-        rootLayout.setCenter(new Tray());
+        rootLayout.setCenter(tray);
         rootLayout.setRight(textField);
 
         root.getChildren().add(rootLayout);

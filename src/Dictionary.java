@@ -2,6 +2,10 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.Scanner;
 
+/**
+ * Author: Luke Gehman
+ * Encapsulates a dictionary text file, and can search that file for a string with the contains() method.
+ */
 public class Dictionary {
     private URL urlToDictionary;
 

@@ -9,6 +9,11 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.Random;
 
+/**
+ * Author: Luke Gehman
+ * Holds a 2D array of Tiles, each displaying a letter. Can check to see if a particular string is on the
+ * board with the contains() method.
+ */
 public class Tray extends Pane {
 
     private final int TRAY_HEIGHT = 5;

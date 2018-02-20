@@ -1,26 +1,34 @@
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * Author: Luke Gehman
+ * Operates a game of Boggle, generating and updating the GUI and processing user input
+ */
 public class GameCoordinator extends Application{
     private Dictionary dictionary;
     private Tray tray;
 
+    /**
+     * The GameCoordinator constructor creates a new dictionary and tray to use in the game.
+     */
     public GameCoordinator() {
         dictionary = new Dictionary();
         tray = new Tray();
     }
 
+    /**
+     * Creates a new stage with a new scene based on the Parent node pass from createContent.
+     * @param primaryStage
+     */
     @Override
     public void start(Stage primaryStage) {
         Scene scene = new Scene(createContent());
@@ -30,6 +38,7 @@ public class GameCoordinator extends Application{
 
     }
 
+
     private Parent createContent(){
         Pane root = new Pane();
         BorderPane rootLayout = new BorderPane();
@@ -38,11 +47,13 @@ public class GameCoordinator extends Application{
         textField.setPromptText("Write a word to check");
 
         VBox buttonsAndLabels = new VBox();
+        buttonsAndLabels.setPrefWidth(120);
 
         Label validWord = new Label("Valid Word?:");
         Button checkButton = new Button("Check");
         checkButton.setOnAction(event -> {
-            if(dictionary.contains(textField.getText()) && tray.contains(textField.getText())){
+            String word = textField.getText();
+            if(dictionary.contains(word) && tray.contains(word) && word.length()>2){
                 validWord.setText("Valid Word?: Yes");
             } else {
                 validWord.setText("Valid Word?: No");

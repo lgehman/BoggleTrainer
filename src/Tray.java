@@ -20,17 +20,21 @@ public class Tray extends Pane {
     private final int TRAY_WIDTH = 5;
     private final int TILE_SIZE = 90;
     private final int LETTER_MAX = 4;
-
-    private Tile[][] board = new Tile[TRAY_HEIGHT][TRAY_WIDTH];
     private int[] letterCounts;
-
-
+    private Tile[][] board = new Tile[TRAY_HEIGHT][TRAY_WIDTH];
 
     public Tray(){
         setPrefSize(TRAY_WIDTH*TILE_SIZE,TRAY_HEIGHT*TILE_SIZE);
         generateTiles();
-        generateBoardState();
+    }
 
+    public void set(){
+        for(Tile[] ts : board){
+            for(Tile t : ts){
+                t.setLetter('.');
+            }
+        }
+        generateBoardState();
     }
 
     public boolean contains(String word){
@@ -86,7 +90,6 @@ public class Tray extends Pane {
                 board[i][j] = tile;
                 getChildren().add(tile);
             }
-
         }
     }
 

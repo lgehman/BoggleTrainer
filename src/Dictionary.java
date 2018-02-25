@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Scanner;
@@ -13,7 +14,7 @@ public class Dictionary {
         urlToDictionary = this.getClass().getResource("/" + "dictionary.txt");
     }
 
-    public boolean contains(String word){
+    public boolean contains(String word) {
         try{
             InputStream stream = urlToDictionary.openStream();
             Scanner scanner = new Scanner(stream);
@@ -22,9 +23,10 @@ public class Dictionary {
                     return true;
                 }
             }
-        } catch (Exception e) {
+        } catch (IOException e){
             System.out.println(e);
         }
+
         return false;
     }
 }

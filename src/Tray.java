@@ -1,3 +1,4 @@
+import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -5,9 +6,8 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Random;
+
+import java.util.*;
 
 /**
  * Author: Luke Gehman
@@ -18,16 +18,19 @@ public class Tray extends Pane {
 
     private final int TRAY_HEIGHT = 5;
     private final int TRAY_WIDTH = 5;
-    private final int TILE_SIZE = 50;
+    private final int TILE_SIZE = 90;
     private final int LETTER_MAX = 4;
 
     private Tile[][] board = new Tile[TRAY_HEIGHT][TRAY_WIDTH];
     private int[] letterCounts;
 
+
+
     public Tray(){
         setPrefSize(TRAY_WIDTH*TILE_SIZE,TRAY_HEIGHT*TILE_SIZE);
         generateTiles();
         generateBoardState();
+
     }
 
     public boolean contains(String word){
@@ -83,6 +86,7 @@ public class Tray extends Pane {
                 board[i][j] = tile;
                 getChildren().add(tile);
             }
+
         }
     }
 
@@ -128,7 +132,6 @@ public class Tray extends Pane {
                 handleQ(i,j+1);
             }
         }
-
     }
 
     private char getRandomLetter(){
@@ -158,7 +161,7 @@ public class Tray extends Pane {
             this.row = row;
             this.column = column;
             text.setText(String.valueOf(letter));
-            text.setFont(Font.font(TILE_SIZE/1.25));
+            text.setFont(Font.font(TILE_SIZE/1.4));
             Rectangle tileEdge = new Rectangle(TILE_SIZE,TILE_SIZE);
             tileEdge.setFill(null);
             tileEdge.setStroke(Color.BLACK);

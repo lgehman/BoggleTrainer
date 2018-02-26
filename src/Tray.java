@@ -1,4 +1,3 @@
-import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -12,7 +11,7 @@ import java.util.*;
 /**
  * Author: Luke Gehman
  * Holds a 2D array of Tiles, each displaying a letter. Can check to see if a particular string is on the
- * board with the contains() method.
+ * tray with the contains() method.
  */
 public class Tray extends Pane {
 
@@ -23,11 +22,19 @@ public class Tray extends Pane {
     private int[] letterCounts;
     private Tile[][] board = new Tile[TRAY_HEIGHT][TRAY_WIDTH];
 
+    /**
+     * Sets up a tray with tiles all initially set to display '.'. Calling set() later will
+     * assign letters to these tiles.
+     */
     public Tray(){
         setPrefSize(TRAY_WIDTH*TILE_SIZE,TRAY_HEIGHT*TILE_SIZE);
         generateTiles();
     }
 
+    /**
+     * Clears the board of previous letters and generates a new board state (assignment of a letter
+     * to each tile)
+     */
     public void set(){
         for(Tile[] ts : board){
             for(Tile t : ts){
@@ -37,12 +44,17 @@ public class Tray extends Pane {
         generateBoardState();
     }
 
+    /**
+     * Checks if a particular word is on the tray.
+     * @param word A string to check
+     * @return True if the string is on the tray
+     */
     public boolean contains(String word){
 
         for(int i=0;i<TRAY_HEIGHT;i++){
             for(int j=0;j<TRAY_WIDTH;j++){
                 if(board[i][j].getLetter()==word.charAt(0)){
-                    LinkedList<Tile> tilesUsed = new LinkedList();
+                    LinkedList<Tile> tilesUsed = new LinkedList<>();
                     tilesUsed.add(board[i][j]);
                     if(checkForWord(word.substring(1),i,j,tilesUsed)){
                         return true;
@@ -53,6 +65,16 @@ public class Tray extends Pane {
         return false;
     }
 
+    /**
+     * Recursively checks for a substring of the word passed at contiguous row,column locations on
+     * the board. Keeps track of which tiles have been used to avoid using the same tile twice.
+     * @param word The string to check
+     * @param row The starting column
+     * @param column The starting row
+     * @param tilesUsed A list of tiles to keep track of which tiles have been used so far in constructing
+     *                  the word.
+     * @return True if the word can be constructed from that location on the board
+     */
     private boolean checkForWord(String word, int row, int column, LinkedList<Tile> tilesUsed){
         if(word.length()==0){
             return true;
@@ -81,6 +103,9 @@ public class Tray extends Pane {
         return false;
     }
 
+    /**
+     * Fills the board with a new set of tiles displaying '.'
+     */
     private void generateTiles(){
         for(int i=0;i<TRAY_HEIGHT;i++){
             for(int j=0;j<TRAY_WIDTH;j++){
@@ -93,6 +118,10 @@ public class Tray extends Pane {
         }
     }
 
+    /**
+     * Sets up each tile with a letter to display. No more than 4 of a given letter may appear on the
+     * board. There is increased likelihood of a 'u' appearing next to a 'q' tile.
+     */
     private void generateBoardState(){
         letterCounts = new int[26];
         Arrays.fill(letterCounts,0);
@@ -116,6 +145,12 @@ public class Tray extends Pane {
         }
     }
 
+    /**
+     * Sets the tile either immediately preceding or following the index given with a new
+     * random letter which is heavily favored to be a 'u'
+     * @param i The row of the q
+     * @param j The column of the q
+     */
     private void handleQ(int i, int j){
         char newLetter;
         do{
@@ -137,12 +172,18 @@ public class Tray extends Pane {
         }
     }
 
+    /**
+     * @return A random lowercase letter
+     */
     private char getRandomLetter(){
         String alphabet = "abcdefghijklmnopqrstuvwxyz";
         Random rand = new Random();
         return alphabet.charAt(rand.nextInt(alphabet.length()));
     }
 
+    /**
+     * @return A random character which has ~80% of being a 'u'
+     */
     private char getRandomLetterUFavored(){
         Random rand = new Random();
         if(rand.nextInt(10) > 1){
@@ -152,14 +193,22 @@ public class Tray extends Pane {
         }
     }
 
-
-
+    /**
+     * The Tile objects hold information about their own location (row and column) as well as the
+     * letter they display (a Text object).
+     */
     private class Tile extends StackPane {
 
         private Text text = new Text();
         private int row;
         private int column;
 
+        /**
+         * Constructs a new Tile with the given character at the given location.
+         * @param letter Any character
+         * @param row The row index
+         * @param column The column index
+         */
         public Tile(char letter, int row, int column){
             this.row = row;
             this.column = column;
@@ -171,18 +220,29 @@ public class Tray extends Pane {
             getChildren().addAll(tileEdge,text);
         }
 
+        /**
+         * @return The character this Tile contains
+         */
         public char getLetter(){
             return text.getText().charAt(0);
         }
 
+        /**
+         * @param letter A character to be displayed
+         */
         public void setLetter(char letter){
             text.setText(Character.toString(letter));
         }
 
+        /**
+         * @return The row index
+         */
         public int getRow(){
             return row;
         }
-
+        /**
+         * @return The column index
+         */
         public int getColumn(){
             return column;
         }

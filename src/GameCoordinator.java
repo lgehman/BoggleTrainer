@@ -79,9 +79,7 @@ public class GameCoordinator extends Application{
         timeline = new Timeline();
         timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(GAME_TIME+1),
                 new KeyValue(timeSeconds, 0)));
-        timeline.setOnFinished(event -> {
-            gameOver();
-        });
+        timeline.setOnFinished(event -> gameOver());
         timeline.playFromStart();
     }
 
@@ -89,7 +87,7 @@ public class GameCoordinator extends Application{
      * Generates a BorderLayout GUI, with the left panel being used to hold a player's list of words,
      * the text field for inputting words, buttons to start/end the game, score information, and the timer.
      * The center panel holds the tray for the game.
-     * @return
+     * @return The root node for the scene
      */
     private Parent createGUI(){
         Pane root = new Pane();
@@ -175,7 +173,7 @@ public class GameCoordinator extends Application{
      */
     private Button createSubmitAllButton(){
         Button submitAllButton = new Button("Submit All");
-        submitAllButton.setOnAction((ActionEvent event) -> {
+        submitAllButton.setOnAction( (ActionEvent event) -> {
             gameOver();
         });
         return submitAllButton;

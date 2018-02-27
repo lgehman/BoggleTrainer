@@ -232,6 +232,11 @@ public class GameCoordinator extends Application{
         return dictionary.contains(word) && tray.contains(word) && word.length()>2;
     }
 
+    /**
+     * Checks if the string is in the player's list
+     * @param word A string
+     * @return True if it's in the player's list of guessed words
+     */
     private boolean isInList(String word){
         for (Text t : playerWordList) {
             if (t.getText().equals(word)) {

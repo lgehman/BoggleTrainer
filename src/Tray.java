@@ -12,13 +12,14 @@ import java.util.*;
 /**
  * Author: Luke Gehman
  * Holds a 2D array of Tiles, each displaying a letter. Can check to see if a particular string is on the
- * tray with the contains() method.
+ * tray with the contains() method. Tiles can be 'selected' on user left click, or unselected on user right
+ * click. Selecting a tile adds to a word attempt, which the tray keeps track of.
  */
 public class Tray extends Pane {
 
     private final int TRAY_HEIGHT = 5;
     private final int TRAY_WIDTH = 5;
-    private final int TILE_SIZE = 90;
+    private final int TILE_SIZE = 105;
     private final int LETTER_MAX = 4;
     private int[] letterCounts;
     private Tile[][] board;
@@ -69,8 +70,6 @@ public class Tray extends Pane {
         return false;
     }
 
-
-
     /**
      * Recursively checks for a substring of the word passed at contiguous row,column locations on
      * the board. Keeps track of which tiles have been used to avoid using the same tile twice.
@@ -109,7 +108,11 @@ public class Tray extends Pane {
         return false;
     }
 
-
+    /**
+     * Returns a string which is the concatenation of the letters on each of the tiles in the
+     * player's wordAttempt
+     * @return
+     */
     public String getWordAttemptAsString(){
         StringBuilder stringBuilder = new StringBuilder();
         for(Tile t : wordAttempt){
@@ -118,6 +121,9 @@ public class Tray extends Pane {
         return stringBuilder.toString();
     }
 
+    /**
+     * Clears the word attempt, unselecting all the tiles in it.
+     */
     public void clearWordAttempt(){
         for(int i = wordAttempt.size()-1; i>=0; i--){
             wordAttempt.get(i).setUnselected();
@@ -250,6 +256,9 @@ public class Tray extends Pane {
 
         }
 
+        /**
+         * Sets up the initial GUI formatting for the tiles.
+         */
         private void tileDisplaySetup(){
             text.setFont(Font.font(TILE_SIZE/1.4));
             tile = new Rectangle(TILE_SIZE,TILE_SIZE);
@@ -258,10 +267,17 @@ public class Tray extends Pane {
             getChildren().addAll(tile,text);
         }
 
+        /**
+         * @return True if this tile is selected
+         */
         public boolean getSelected(){
             return selected;
         }
 
+        /**
+         * Sets this tile as selected (selected = true), changes it's background color to PURPLE,
+         * and adds this tile's letter to the wordAttempt if it wasn't already selected.
+         */
         public void setSelected(){
             if(!selected){
                 wordAttempt.add(this);
@@ -270,6 +286,10 @@ public class Tray extends Pane {
             tile.setFill(Color.PURPLE);
         }
 
+        /**
+         * Sets this tile as unselected (selected = false), changes it's background color to null (clear),
+         * and removes it from the wordAttempt.
+         */
         public void setUnselected(){
             if(wordAttempt.getLast() == this){
                 wordAttempt.removeLast();
@@ -298,6 +318,7 @@ public class Tray extends Pane {
         public int getRow(){
             return row;
         }
+
         /**
          * @return The column index
          */

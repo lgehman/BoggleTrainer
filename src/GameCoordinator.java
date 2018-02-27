@@ -187,15 +187,18 @@ public class GameCoordinator extends Application{
     private Button createAddButton(TextField userInputField){
         Button addButton = new Button("Add");
         addButton.setOnAction(event -> {
-            String word = userInputField.getText();
-            if (word.length() > 2) {
-                for (Text t : playerWordList) {
-                    if (t.getText().equals(word)) {
-                        return;
-                    }
+            String word = tray.getWordAttemptAsString();
+            if(word.length() > 2){
+                if(!isInList(word)){
+                    playerWordList.add(new Text(word));
+                    tray.clearWordAttempt();
                 }
-                playerWordList.add(new Text(word));
-                userInputField.clear();
+            } else {
+                word = userInputField.getText();
+                if (word.length() > 2 && !isInList(word)) {
+                    playerWordList.add(new Text(word));
+                    userInputField.clear();
+                }
             }
         });
         return addButton;
@@ -227,6 +230,15 @@ public class GameCoordinator extends Application{
      */
     private boolean isValid(String word){
         return dictionary.contains(word) && tray.contains(word) && word.length()>2;
+    }
+
+    private boolean isInList(String word){
+        for (Text t : playerWordList) {
+            if (t.getText().equals(word)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**

@@ -1,3 +1,5 @@
+import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -20,13 +22,16 @@ public class Tray extends Pane {
     private final int TILE_SIZE = 90;
     private final int LETTER_MAX = 4;
     private int[] letterCounts;
-    private Tile[][] board = new Tile[TRAY_HEIGHT][TRAY_WIDTH];
+    private Tile[][] board;
+    private LinkedList<Tile> wordAttempt;
 
     /**
      * Sets up a tray with tiles all initially set to display '.'. Calling set() later will
      * assign letters to these tiles.
      */
     public Tray(){
+        board = new Tile[TRAY_HEIGHT][TRAY_WIDTH];
+        wordAttempt = new LinkedList<>();
         setPrefSize(TRAY_WIDTH*TILE_SIZE,TRAY_HEIGHT*TILE_SIZE);
         generateTiles();
     }
@@ -63,6 +68,20 @@ public class Tray extends Pane {
             }
         }
         return false;
+    }
+
+    public String getWordAttemptAsString(){
+        String word = new String();
+        for(Tile t : wordAttempt){
+            word+=t.getLetter();
+        }
+        return word;
+    }
+
+    public void clearWordAttempt(){
+        for(int i = wordAttempt.size()-1; i>=0; i--){
+            wordAttempt.get(i).setUnselected();
+        }
     }
 
     /**
@@ -202,6 +221,8 @@ public class Tray extends Pane {
         private Text text = new Text();
         private int row;
         private int column;
+        private boolean selected;
+        private Rectangle tile;
 
         /**
          * Constructs a new Tile with the given character at the given location.
@@ -213,11 +234,46 @@ public class Tray extends Pane {
             this.row = row;
             this.column = column;
             text.setText(String.valueOf(letter));
+            selected = false;
+            tileDisplaySetup();
+
+            setOnMouseClicked(event -> {
+                if(event.getButton()== MouseButton.PRIMARY){
+                    setSelected();
+
+                } else if (event.getButton()== MouseButton.SECONDARY){
+                    setUnselected();
+                }
+            });
+
+        }
+
+        private void tileDisplaySetup(){
             text.setFont(Font.font(TILE_SIZE/1.4));
-            Rectangle tileEdge = new Rectangle(TILE_SIZE,TILE_SIZE);
-            tileEdge.setFill(null);
-            tileEdge.setStroke(Color.BLACK);
-            getChildren().addAll(tileEdge,text);
+            tile = new Rectangle(TILE_SIZE,TILE_SIZE);
+            tile.setFill(null);
+            tile.setStroke(Color.BLACK);
+            getChildren().addAll(tile,text);
+        }
+
+        public boolean getSelected(){
+            return selected;
+        }
+
+        public void setSelected(){
+            if(!selected){
+                wordAttempt.add(this);
+            }
+            selected = true;
+            tile.setFill(Color.PURPLE);
+        }
+
+        public void setUnselected(){
+            if(wordAttempt.getLast() == this){
+                wordAttempt.removeLast();
+                selected = false;
+                tile.setFill(null);
+            }
         }
 
         /**

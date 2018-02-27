@@ -72,6 +72,7 @@ public class GameCoordinator extends Application{
         scoreThisRoundLabel.setText("Score: " + scoreThisRound);
         playerWordList.clear();
         tray.set();
+        tray.clearWordAttempt();
         if(timeline != null){
             timeline.stop();
         }

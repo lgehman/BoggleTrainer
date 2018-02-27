@@ -70,19 +70,7 @@ public class Tray extends Pane {
         return false;
     }
 
-    public String getWordAttemptAsString(){
-        String word = new String();
-        for(Tile t : wordAttempt){
-            word+=t.getLetter();
-        }
-        return word;
-    }
 
-    public void clearWordAttempt(){
-        for(int i = wordAttempt.size()-1; i>=0; i--){
-            wordAttempt.get(i).setUnselected();
-        }
-    }
 
     /**
      * Recursively checks for a substring of the word passed at contiguous row,column locations on
@@ -106,7 +94,7 @@ public class Tray extends Pane {
                 if(i >= TRAY_HEIGHT || i<0 || j >= TRAY_WIDTH || j<0){
                     continue;
                 }
-                if((i==0 && j==0) || tilesUsed.contains(board[i][j])){
+                if((columnOffset==0 && rowOffset==0) || tilesUsed.contains(board[i][j])){
                     continue;
                 }
                 if(board[i][j].getLetter() == word.charAt(0)){
@@ -120,6 +108,21 @@ public class Tray extends Pane {
             }
         }
         return false;
+    }
+
+
+    public String getWordAttemptAsString(){
+        String word = new String();
+        for(Tile t : wordAttempt){
+            word+=t.getLetter();
+        }
+        return word;
+    }
+
+    public void clearWordAttempt(){
+        for(int i = wordAttempt.size()-1; i>=0; i--){
+            wordAttempt.get(i).setUnselected();
+        }
     }
 
     /**

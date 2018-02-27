@@ -1,5 +1,4 @@
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -112,11 +111,11 @@ public class Tray extends Pane {
 
 
     public String getWordAttemptAsString(){
-        String word = new String();
+        StringBuilder stringBuilder = new StringBuilder();
         for(Tile t : wordAttempt){
-            word+=t.getLetter();
+            stringBuilder.append(t.getLetter());
         }
-        return word;
+        return stringBuilder.toString();
     }
 
     public void clearWordAttempt(){

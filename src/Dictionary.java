@@ -32,7 +32,7 @@ public class Dictionary {
                 }
             }
         } catch (IOException e){
-            System.out.println(e);
+            e.printStackTrace();
         }
 
         return false;

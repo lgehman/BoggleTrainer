@@ -20,6 +20,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import static javafx.collections.FXCollections.observableArrayList;
 
 /**
@@ -114,8 +115,8 @@ public class GameCoordinator extends Application{
 
         rootLayout.setCenter(centerPanel);
         rootLayout.setLeft(leftPanel);
-        rootLayout.setMargin(centerPanel,new Insets(20,20,20,20));
-        rootLayout.setMargin(leftPanel,new Insets(20,20,20,20));
+        BorderPane.setMargin(centerPanel,new Insets(20,20,20,20));
+        BorderPane.setMargin(leftPanel,new Insets(20,20,20,20));
 
         root.getChildren().add(rootLayout);
         return root;
@@ -174,9 +175,7 @@ public class GameCoordinator extends Application{
      */
     private Button createSubmitAllButton(){
         Button submitAllButton = new Button("Submit All");
-        submitAllButton.setOnAction( (ActionEvent event) -> {
-            gameOver();
-        });
+        submitAllButton.setOnAction( (ActionEvent event) -> gameOver());
         return submitAllButton;
     }
 
